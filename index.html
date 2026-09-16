@@ -3,14 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>End Shop | فروشگاه اند شاپ</title>
+<title>End Shop | اند شاپ</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0a0e1a;
     --bg-2: #0f1626;
     --card: #151f35;
-    --card-hover: #1a2742;
     --border: #223050;
     --text: #eef2f8;
     --text-2: #8a94a8;
@@ -25,12 +24,11 @@
     --bg: #f5f7fb;
     --bg-2: #ffffff;
     --card: #ffffff;
-    --card-hover: #f9fafc;
     --border: #e4e9f2;
     --text: #0f1626;
     --text-2: #64748b;
   }
-  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Vazirmatn', sans-serif; -webkit-tap-highlight-color: transparent; }
   html { scroll-behavior: smooth; }
   body {
     background: var(--bg);
@@ -39,10 +37,16 @@
     overflow-x: hidden;
     transition: background 0.3s, color 0.3s;
   }
-  
-  /* انیمیشن‌های خیلی سبک */
+  button:focus, a:focus, input:focus, select:focus, textarea:focus { outline: none; }
+
+  /* انیمیشن‌ها */
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   @keyframes slideUp { from { transform: translateX(-50%) translateY(50px); opacity: 0; } to { transform: translateX(-50%) translateY(0); opacity: 1; } }
+  @keyframes diamondFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+  @keyframes diamondGlow { 0%, 100% { filter: drop-shadow(0 0 20px rgba(6,214,160,0.5)); } 50% { filter: drop-shadow(0 0 40px rgba(6,214,160,0.9)); } }
+  @keyframes cubeFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(10deg); } }
+  @keyframes shine { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  @keyframes pickaxe { 0%, 100% { transform: rotate(-20deg); } 50% { transform: rotate(20deg); } }
 
   nav {
     position: sticky; top: 0; z-index: 200;
@@ -64,8 +68,8 @@
     padding: 10px 18px; border-radius: 12px; border: 1px solid var(--border);
     background: var(--card); color: var(--text); font-weight: 600; cursor: pointer;
     text-decoration: none; font-family: inherit; font-size: 0.88rem;
-    transition: border-color 0.15s;
     display: flex; align-items: center; gap: 7px; position: relative;
+    transition: border-color 0.15s;
   }
   .nav-btns button:hover, .nav-btns a:hover { border-color: var(--primary); }
   .nav-btns .primary { background: var(--primary); border: none; color: white; }
@@ -81,36 +85,153 @@
 
   .container { max-width: 1600px; margin: 0 auto; padding: 0 40px; }
 
-  .hero { text-align: center; padding: 100px 20px 80px; position: relative; }
-  .hero .logo-big {
-    width: 130px; height: 130px; border-radius: 32px; object-fit: cover;
-    margin-bottom: 28px; border: 3px solid var(--primary);
-    box-shadow: 0 15px 40px rgba(79,127,255,0.2);
+  /* ===== لابی ===== */
+  .lobby {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 50%, rgba(6,214,160,0.08), transparent 60%);
   }
-  .hero .badge {
-    display: inline-block;
-    background: rgba(79,127,255,0.15);
-    border: 1px solid var(--primary); color: var(--primary);
-    padding: 9px 22px; border-radius: 50px; font-size: 0.85rem;
-    margin-bottom: 25px; font-weight: 700;
+  .lobby::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(79,127,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,127,255,0.04) 1px, transparent 1px);
+    background-size: 50px 50px;
+    pointer-events: none;
+    mask-image: radial-gradient(circle, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle, black 30%, transparent 80%);
   }
-  .hero h1 { font-size: 4rem; font-weight: 900; color: var(--text); margin-bottom: 20px; }
-  .hero h1 span { background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero p { color: var(--text-2); font-size: 1.2rem; max-width: 750px; margin: 0 auto 38px; line-height: 2; }
-  .hero .cta { display: inline-flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-  .hero .cta a { padding: 16px 36px; border-radius: 14px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: border-color 0.15s; display: inline-flex; align-items: center; gap: 8px; }
-  .hero .cta .primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; box-shadow: 0 10px 25px rgba(79,127,255,0.25); }
-  .hero .cta .secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+  
+  /* مکعب‌های شناور */
+  .lobby-cubes { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+  .cube {
+    position: absolute;
+    width: 40px; height: 40px;
+    border-radius: 6px;
+    animation: cubeFloat 6s ease-in-out infinite;
+    image-rendering: pixelated;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  }
+  .cube::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 6px;
+    background: inherit;
+    opacity: 0.4;
+    transform: translate(-3px, -3px);
+  }
+  .cube.grass { background: linear-gradient(180deg, #4ade80 0%, #4ade80 30%, #78350f 30%, #78350f 100%); }
+  .cube.diamond { background: linear-gradient(135deg, #67e8f9, #06b6d4); }
+  .cube.gold { background: linear-gradient(135deg, #fbbf24, #d97706); }
+  .cube.redstone { background: linear-gradient(135deg, #ef4444, #991b1b); }
+  .cube.emerald { background: linear-gradient(135deg, #34d399, #059669); }
+  .cube.obsidian { background: linear-gradient(135deg, #4c1d95, #1e1b4b); }
+  
+  .cube:nth-child(1) { top: 12%; left: 8%; animation-delay: 0s; }
+  .cube:nth-child(2) { top: 22%; right: 12%; animation-delay: 1s; }
+  .cube:nth-child(3) { bottom: 18%; left: 15%; animation-delay: 2s; }
+  .cube:nth-child(4) { bottom: 25%; right: 8%; animation-delay: 3s; }
+  .cube:nth-child(5) { top: 45%; left: 4%; animation-delay: 4s; }
+  .cube:nth-child(6) { top: 55%; right: 4%; animation-delay: 5s; }
 
-  .discount-bar { background: linear-gradient(90deg, var(--primary), var(--secondary)); text-align: center; padding: 15px; font-weight: 700; font-size: 0.95rem; color: white; }
+  /* الماس سه‌بعدی متحرک */
+  .diamond-container {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 30px;
+    perspective: 1000px;
+  }
+  .diamond-3d {
+    width: 140px;
+    height: 140px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: diamondFloat 4s ease-in-out infinite, diamondGlow 3s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .diamond-svg {
+    width: 140px;
+    height: 140px;
+    filter: drop-shadow(0 10px 20px rgba(6,214,160,0.3));
+  }
+  .diamond-svg polygon {
+    stroke: rgba(255,255,255,0.4);
+    stroke-width: 1.5;
+  }
+  .diamond-sparkle {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: diamondFloat 2s ease-in-out infinite;
+  }
+  .diamond-sparkle:nth-child(2) { top: -10px; right: -10px; animation-delay: 0.5s; }
+  .diamond-sparkle:nth-child(3) { bottom: -10px; left: -10px; animation-delay: 1s; }
+  
+  .lobby h1 {
+    font-size: 3.8rem;
+    font-weight: 900;
+    margin-bottom: 18px;
+    position: relative;
+    z-index: 1;
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    background-size: 200% 200%;
+    animation: shine 4s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .lobby p {
+    color: var(--text-2);
+    font-size: 1.15rem;
+    max-width: 650px;
+    margin-bottom: 32px;
+    line-height: 2;
+    position: relative;
+    z-index: 1;
+  }
+  .lobby-btns {
+    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+    position: relative; z-index: 1;
+  }
+  .lobby-btns a {
+    padding: 15px 34px; border-radius: 14px; text-decoration: none;
+    font-weight: 700; font-size: 0.98rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .lobby-btns .primary {
+    background: linear-gradient(135deg, var(--accent), #059669);
+    color: white;
+    box-shadow: 0 10px 30px rgba(6,214,160,0.3);
+  }
+  .lobby-btns .primary:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(6,214,160,0.5); }
+  .lobby-btns .secondary {
+    background: var(--card); border: 1px solid var(--border); color: var(--text);
+  }
+  .lobby-btns .secondary:hover { border-color: var(--primary); transform: translateY(-3px); }
 
-  .section-title { text-align: center; margin: 90px 0 50px; }
+  /* ===== بخش‌ها ===== */
+  .section { padding: 70px 0; position: relative; }
+  .section:nth-child(even) { background: rgba(15, 22, 38, 0.3); }
+  body.light .section:nth-child(even) { background: rgba(245, 247, 251, 0.5); }
+
+  .section-title { text-align: center; margin-bottom: 50px; }
   .section-title h2 { font-size: 2.2rem; font-weight: 900; color: var(--text); margin-bottom: 14px; }
   .section-title span { display: inline-block; width: 70px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 10px; }
   .section-title p { color: var(--text-2); margin-top: 14px; font-size: 0.98rem; }
 
   .search-bar {
-    display: flex; gap: 12px; margin-bottom: 30px; flex-wrap: wrap; align-items: center;
+    display: flex; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; align-items: center;
     background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 15px;
   }
   .search-bar input, .search-bar select {
@@ -127,6 +248,7 @@
     padding: 10px 20px; border-radius: 50px; border: 1px solid var(--border);
     background: var(--card); color: var(--text); font-weight: 600;
     cursor: pointer; font-family: inherit; font-size: 0.85rem;
+    transition: border-color 0.15s;
   }
   .cat-btn:hover { border-color: var(--primary); }
   .cat-btn.active { background: linear-gradient(135deg, var(--primary), var(--secondary)); border: none; color: white; }
@@ -135,7 +257,6 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
     gap: 28px;
-    margin-bottom: 60px;
   }
   .card {
     background: var(--card); border: 1px solid var(--border);
@@ -157,12 +278,11 @@
     font-size: 1.15rem;
     z-index: 3;
   }
-  .card .fav-btn:hover { background: var(--secondary); }
   .card .fav-btn.active { background: var(--secondary); }
   .card .new-badge {
     position: absolute; top: 14px; right: 14px;
-    background: var(--success);
-    color: white; padding: 4px 12px; border-radius: 50px;
+    background: var(--success); color: white;
+    padding: 4px 12px; border-radius: 50px;
     font-size: 0.7rem; font-weight: 700; z-index: 3;
   }
   .card .featured-badge {
@@ -185,7 +305,7 @@
     cursor: pointer;
   }
 
-  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 28px; margin-bottom: 60px; }
+  .news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 28px; }
   .news-card {
     background: var(--card); border: 1px solid var(--border);
     border-radius: 20px; padding: 24px;
@@ -243,7 +363,6 @@
     margin-bottom: 10px; font-size: 0.88rem;
     border: 1px solid var(--border);
   }
-  .admin-item:hover { border-color: var(--primary); }
   .admin-stats {
     display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 15px; margin-bottom: 25px;
@@ -288,18 +407,9 @@
     font-weight: 700; font-size: 0.88rem;
     border-bottom: 2px solid transparent;
   }
-  .profile-tab:hover { color: var(--text); }
   .profile-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
   .profile-tab-content { display: none; }
   .profile-tab-content.active { display: block; }
-
-  .badge-item {
-    display: inline-block; padding: 8px 16px; margin: 5px;
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 50px; font-size: 0.82rem; font-weight: 700;
-  }
-  .badge-item.unlocked { border-color: var(--accent); color: var(--accent); }
-  .badge-item.locked { opacity: 0.4; }
 
   .order-item {
     background: var(--card); border: 1px solid var(--border);
@@ -309,9 +419,7 @@
   .order-status {
     display: inline-block; padding: 3px 10px;
     border-radius: 50px; font-size: 0.72rem; font-weight: 700;
-    margin-right: 8px;
   }
-  .order-status.pending { background: rgba(245,158,11,0.2); color: var(--warning); }
   .order-status.done { background: rgba(16,185,129,0.2); color: var(--success); }
 
   .notif-bell { position: relative; }
@@ -333,7 +441,7 @@
   #cartPage { display: none; min-height: 100vh; padding: 60px 0; }
   #cartPage.open { display: block; }
   .cart-page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
-  .cart-page-header h1 { font-size: 2rem; font-weight: 900; display: flex; align-items: center; gap: 12px; }
+  .cart-page-header h1 { font-size: 2rem; font-weight: 900; }
   .cart-page-header button { padding: 12px 24px; background: var(--card); border: 1px solid var(--border); border-radius: 12px; color: var(--text); font-weight: 700; cursor: pointer; font-family: inherit; }
   .cart-page-header button:hover { border-color: var(--primary); }
   .cart-layout { display: grid; grid-template-columns: 1fr 400px; gap: 30px; }
@@ -350,13 +458,11 @@
   .summary-total .total-price { color: var(--accent); font-size: 1.8rem; font-weight: 900; margin-top: 8px; }
   .empty-cart { text-align: center; padding: 60px 20px; color: var(--text-2); }
   .empty-cart .icon { font-size: 5rem; margin-bottom: 20px; opacity: 0.5; }
-  .empty-cart h3 { font-size: 1.3rem; margin-bottom: 12px; color: var(--text); }
   .cart-item-new {
     display: flex; gap: 20px; padding: 20px;
     background: var(--bg-2); border: 1px solid var(--border);
     border-radius: 16px; margin-bottom: 15px;
   }
-  .cart-item-new:hover { border-color: var(--primary); }
   .cart-item-new .item-img { width: 90px; height: 90px; border-radius: 14px; background: rgba(79,127,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 2.8rem; flex-shrink: 0; }
   .cart-item-new .item-info { flex: 1; }
   .cart-item-new .item-name { font-weight: 700; font-size: 1.05rem; margin-bottom: 6px; }
@@ -364,7 +470,7 @@
   .cart-item-new .item-price { color: var(--accent); font-weight: 900; font-size: 1.15rem; }
   .cart-item-new .remove-item { padding: 8px 14px; background: var(--danger); color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; font-family: inherit; font-size: 0.8rem; }
 
-  footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 70px 20px 30px; margin-top: 100px; }
+  footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 70px 20px 30px; }
   .footer-grid { max-width: 1600px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 45px; margin-bottom: 45px; }
   .footer-col h4 { color: var(--text); margin-bottom: 20px; font-size: 1.05rem; font-weight: 700; }
   .footer-col a, .footer-col p { display: block; color: var(--text-2); text-decoration: none; font-size: 0.9rem; margin-bottom: 12px; }
@@ -379,16 +485,17 @@
     .cart-summary-box { position: static; }
   }
   @media (max-width: 768px) {
-    .hero h1 { font-size: 2.5rem; }
+    .lobby h1 { font-size: 2.5rem; }
+    .lobby .diamond-3d { width: 110px; height: 110px; }
+    .lobby .diamond-svg { width: 110px; height: 110px; }
     nav { padding: 12px 20px; }
     nav .logo-text { font-size: 1.2rem; }
     .nav-btns button, .nav-btns a { padding: 7px 12px; font-size: 0.78rem; }
     .container { padding: 0 20px; }
-    .hero .logo-big { width: 100px; height: 100px; }
     .admin-panel { padding: 20px; margin: 30px 15px; }
     .cart-item-new { flex-direction: column; }
-    .cart-item-new .item-img { width: 100%; height: 120px; }
     .notif-dropdown { width: 280px; }
+    .cube { width: 30px; height: 30px; }
   }
 </style>
 </head>
@@ -402,21 +509,49 @@
   <div class="nav-btns" id="navBtns"></div>
 </nav>
 
-<div class="discount-bar">🎉 تخفیف ویژه! با خرید بالای ۵۰ هزار تومان، ۱۰٪ تخفیف بگیرید 🎉</div>
+<div class="discount-bar" style="background: linear-gradient(90deg, var(--accent), #059669); text-align: center; padding: 15px; font-weight: 700; font-size: 0.95rem; color: white;">🎉 تخفیف ویژه! با خرید بالای ۵۰ هزار تومان، ۱۰٪ تخفیف بگیرید 🎉</div>
 
 <div id="mainPage">
 
-  <section class="hero">
-    <img src="https://cdn.imgurl.ir/uploads/a38216_End_shop.png" alt="End Shop" class="logo-big" onerror="this.style.display='none'">
-    <div class="badge">✨ فروشگاه تخصصی ماینکرفت ✨</div>
-    <h1>End <span>Shop</span></h1>
+  <!-- ===== لابی ===== -->
+  <section class="lobby" id="lobbySection">
+    
+    <div class="lobby-cubes">
+      <div class="cube grass"></div>
+      <div class="cube diamond"></div>
+      <div class="cube gold"></div>
+      <div class="cube redstone"></div>
+      <div class="cube emerald"></div>
+      <div class="cube obsidian"></div>
+    </div>
+    
+    <!-- الماس سه‌بعدی -->
+    <div class="diamond-container">
+      <div class="diamond-3d">
+        <svg class="diamond-svg" viewBox="0 0 100 100">
+          <polygon points="50,5 90,35 50,95 10,35" fill="#06d6a0" opacity="0.9"/>
+          <polygon points="50,5 90,35 50,50" fill="#4ade80" opacity="0.8"/>
+          <polygon points="50,5 10,35 50,50" fill="#34d399" opacity="0.9"/>
+          <polygon points="50,95 90,35 50,50" fill="#059669" opacity="0.7"/>
+          <polygon points="50,95 10,35 50,50" fill="#047857" opacity="0.8"/>
+          <polygon points="10,35 50,5 50,50" fill="#10b981" opacity="0.6"/>
+        </svg>
+        <div class="diamond-sparkle">✨</div>
+        <div class="diamond-sparkle">💎</div>
+      </div>
+    </div>
+    
+    <h1>End Shop</h1>
     <p>بهترین تامبنیل‌ها، آواتارها، اسکین‌ها و ادیت‌های ماینکرفت — با کیفیت بالا و قیمت مناسب</p>
-    <div class="cta">
-      <a href="#products" class="primary">🛒 مشاهده محصولات</a>
+    
+    <div class="lobby-btns">
+      <a href="#productsSection" class="primary">🛒 مشاهده محصولات</a>
       <a href="https://rubika.ir/joing/BBGECEHBI0ZUKUJGHRKAHZRVFTMYZLGG" target="_blank" class="secondary">💬 پشتیبانی روبیکا</a>
     </div>
+    
   </section>
 
+  <!-- ===== پنل ادمین ===== -->
   <div class="admin-panel" id="adminPanel" style="display:none;">
     <h2>👑 پنل مدیریت</h2>
     
@@ -425,7 +560,7 @@
       <div class="stat-box"><div class="stat-num" id="statProducts">0</div><div class="stat-label">محصولات</div></div>
       <div class="stat-box"><div class="stat-num" id="statOrders">0</div><div class="stat-label">سفارشات</div></div>
       <div class="stat-box"><div class="stat-num" id="statUsers">0</div><div class="stat-label">کاربران</div></div>
-      <div class="stat-box"><div class="stat-num" id="statRevenue">0</div><div class="stat-label">درآمد (تومان)</div></div>
+      <div class="stat-box"><div class="stat-num" id="statRevenue">0</div><div class="stat-label">درآمد</div></div>
     </div>
     
     <h3>📰 مدیریت اخبار</h3>
@@ -433,7 +568,6 @@
     <textarea id="newsText" placeholder="متن خبر..." rows="3"></textarea>
     <input type="text" id="newsImage" placeholder="لینک عکس خبر...">
     <button onclick="addNews()">➕ افزودن خبر</button>
-    <div id="newsList" style="margin-top:15px;"></div>
 
     <h3>📦 مدیریت محصولات</h3>
     <input type="text" id="productName" placeholder="اسم محصول...">
@@ -441,17 +575,17 @@
     <input type="text" id="productEmoji" placeholder="ایموجی (مثلاً 🖼️)...">
     <input type="text" id="productTag" placeholder="برچسب (مثلاً ماینکرفت)...">
     <label style="color:var(--text-2); font-size:12px; font-weight:700; margin-top:5px; display:flex; align-items:center; gap:8px;">
-      <input type="checkbox" id="productFeatured" style="width:auto;"> محصول ویژه (Featured)
+      <input type="checkbox" id="productFeatured" style="width:auto;"> محصول ویژه
     </label>
     <button onclick="addProduct()">➕ افزودن محصول</button>
     <div id="productList" style="margin-top:15px;"></div>
 
     <h3>🏷️ مدیریت دسته‌بندی‌ها</h3>
-    <input type="text" id="newCategoryName" placeholder="اسم دسته‌بندی (مثلاً ماینکرفت)...">
+    <input type="text" id="newCategoryName" placeholder="اسم دسته‌بندی...">
     <button onclick="addCategory()">➕ افزودن دسته‌بندی</button>
     <div id="categoryList" style="margin-top:15px;"></div>
 
-    <h3>🎟️ مدیریت کدهای تخفیف زمان‌دار</h3>
+    <h3>🎟️ مدیریت کدهای تخفیف</h3>
     <input type="text" id="discountCode" placeholder="کد تخفیف (مثلاً OFF20)...">
     <input type="number" id="discountPercent" placeholder="درصد تخفیف (1-100)...">
     <label style="color:var(--text-2); font-size:12px; font-weight:700; margin-top:5px; display:block;">⏰ مدت اعتبار</label>
@@ -471,58 +605,70 @@
     <div id="ordersList" style="margin-top:15px;"></div>
   </div>
 
-  <div class="section-title">
-    <h2>📰 اخبار End Shop</h2>
-    <span></span>
-    <p>جدیدترین خبرها و تخفیف‌های فروشگاه</p>
-  </div>
-  <div class="container">
-    <div class="news-grid" id="newsGrid"></div>
-  </div>
+  <!-- ===== بخش محصولات ===== -->
+  <section class="section" id="productsSection">
+    <div class="container">
+      <div class="section-title">
+        <h2>🎯 محصولات ما</h2>
+        <span></span>
+        <p>محصول مورد نظرت رو انتخاب کن</p>
+      </div>
+      
+      <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="🔍 جستجوی محصول..." oninput="filterProducts()">
+        <select id="sortSelect" onchange="filterProducts()">
+          <option value="default">مرتب‌سازی: پیش‌فرض</option>
+          <option value="cheap">ارزان‌ترین</option>
+          <option value="expensive">گران‌ترین</option>
+          <option value="newest">جدیدترین</option>
+          <option value="popular">محبوب‌ترین</option>
+        </select>
+      </div>
+      
+      <div class="categories" id="categoryBar"></div>
+      <section class="products" id="productsGrid"></section>
+    </div>
+  </section>
 
-  <div class="section-title" id="products">
-    <h2>🎯 محصولات ما</h2>
-    <span></span>
-    <p>محصول مورد نظرت رو انتخاب کن</p>
-  </div>
-  <div class="container">
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="🔍 جستجوی محصول..." oninput="filterProducts()">
-      <select id="sortSelect" onchange="filterProducts()">
-        <option value="default">مرتب‌سازی: پیش‌فرض</option>
-        <option value="cheap">ارزان‌ترین</option>
-        <option value="expensive">گران‌ترین</option>
-        <option value="newest">جدیدترین</option>
-        <option value="popular">محبوب‌ترین</option>
-      </select>
+  <!-- ===== بخش اخبار ===== -->
+  <section class="section" id="newsSection">
+    <div class="container">
+      <div class="section-title">
+        <h2>📰 اخبار End Shop</h2>
+        <span></span>
+        <p>جدیدترین خبرها و تخفیف‌های فروشگاه</p>
+      </div>
+      <div class="news-grid" id="newsGrid"></div>
     </div>
-    <div class="categories" id="categoryBar"></div>
-    <section class="products" id="productsGrid"></section>
-  </div>
+  </section>
 
-  <div class="section-title">
-    <h2>❓ سوالات متداول</h2>
-    <span></span>
-    <p>پاسخ سوالات رایج شما</p>
-  </div>
-  <div class="container" style="max-width:900px;">
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">چطور می‌تونم خرید کنم؟</div>
-      <div class="faq-a">محصول مورد نظرت رو به سبد خرید اضافه کن، سپس از صفحه سبد خرید، تسویه حساب رو بزن و متن سفارش رو برای پشتیبانی روبیکا بفرست.</div>
+  <!-- ===== بخش FAQ ===== -->
+  <section class="section" id="faqSection">
+    <div class="container" style="max-width:900px;">
+      <div class="section-title">
+        <h2>❓ سوالات متداول</h2>
+        <span></span>
+        <p>پاسخ سوالات رایج شما</p>
+      </div>
+      
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">چطور می‌تونم خرید کنم؟</div>
+        <div class="faq-a">محصول مورد نظرت رو به سبد خرید اضافه کن، سپس از صفحه سبد خرید، تسویه حساب رو بزن و متن سفارش رو برای پشتیبانی روبیکا بفرست.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">چطور کد تخفیف استفاده کنم؟</div>
+        <div class="faq-a">توی صفحه سبد خرید، کد تخفیف رو وارد کن و دکمه اعمال رو بزن.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">چه مدت طول می‌کشه سفارش برسه؟</div>
+        <div class="faq-a">معمولاً بین ۱ تا ۳ روز کاری.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">امکان مرجوعی وجود داره؟</div>
+        <div class="faq-a">بله، تا ۲۴ ساعت بعد از تحویل.</div>
+      </div>
     </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">چطور کد تخفیف استفاده کنم؟</div>
-      <div class="faq-a">توی صفحه سبد خرید، کد تخفیف رو وارد کن و دکمه اعمال رو بزن. اگه کد معتبر باشه، تخفیف اعمال میشه.</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">چه مدت طول می‌کشه سفارش برسه؟</div>
-      <div class="faq-a">بسته به نوع محصول هست ولی معمولا از ۱ تا ۵ ساعت طول میکشه</div>
-    </div>
-    <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q">امکان مرجوعی وجود داره؟</div>
-      <div class="faq-a">بله، اگه محصول با توضیحات مطابقت نداشت، تا ۲۴ ساعت بعد از تحویل می‌تونی درخواست مرجوعی بدی.</div>
-    </div>
-  </div>
+  </section>
 
 </div>
 
@@ -530,7 +676,7 @@
   <div class="container">
     <div class="cart-page-header">
       <h1>🛒 سبد خرید</h1>
-      <button onclick="closeCartPage()">← بازگشت به فروشگاه</button>
+      <button onclick="closeCartPage()">← بازگشت</button>
     </div>
     <div class="cart-layout">
       <div class="cart-items-box">
@@ -539,25 +685,16 @@
       </div>
       <div class="cart-summary-box">
         <h3>📋 خلاصه سفارش</h3>
-        <div class="summary-row">
-          <span class="label">تعداد اقلام</span>
-          <span class="value" id="cartItemCount">0</span>
-        </div>
-        <div class="summary-row">
-          <span class="label">جمع کل</span>
-          <span class="value" id="cartSubtotal">0 تومان</span>
-        </div>
-        <div class="summary-row" id="discountRow" style="display:none;">
-          <span class="label">🎟️ تخفیف</span>
-          <span class="value" id="cartDiscountAmount" style="color:var(--success);">0 تومان</span>
-        </div>
+        <div class="summary-row"><span class="label">تعداد اقلام</span><span class="value" id="cartItemCount">0</span></div>
+        <div class="summary-row"><span class="label">جمع کل</span><span class="value" id="cartSubtotal">0 تومان</span></div>
+        <div class="summary-row" id="discountRow" style="display:none;"><span class="label">🎟️ تخفیف</span><span class="value" id="cartDiscountAmount" style="color:var(--success);">0 تومان</span></div>
         <div class="summary-total">
           <div class="total-label">مبلغ قابل پرداخت</div>
           <div class="total-price" id="cartFinalTotal">0 تومان</div>
         </div>
         <label style="color:var(--text-2); font-size:12px; font-weight:700; margin-top:15px; display:block;">🎟️ کد تخفیف</label>
         <input type="text" id="discountInput" placeholder="مثلاً OFF20" style="width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:12px;color:var(--text);margin-top:6px;font-family:inherit;">
-        <button onclick="applyDiscount()" style="width:100%;padding:12px;margin-top:10px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;">✅ اعمال کد تخفیف</button>
+        <button onclick="applyDiscount()" style="width:100%;padding:12px;margin-top:10px;background:var(--bg-2);color:var(--text);border:1px solid var(--border);border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;">✅ اعمال</button>
         <div id="discountResult" style="text-align:center;margin-top:10px;font-size:0.85rem;min-height:20px;"></div>
         <button onclick="checkout()" style="width:100%;padding:14px;margin-top:15px;background:linear-gradient(135deg,var(--success),#059669);color:white;border:none;border-radius:12px;font-weight:700;cursor:pointer;font-family:inherit;font-size:1rem;">💳 تسویه حساب</button>
       </div>
@@ -570,23 +707,22 @@
     <div class="footer-col">
       <h4>🏠 End Shop</h4>
       <p>فروشگاه تخصصی ماینکرفت</p>
-      <p>بهترین تامبنیل‌ها و آواتارها</p>
     </div>
     <div class="footer-col">
       <h4>🔗 دسترسی سریع</h4>
-      <a href="#products" onclick="closeCartPage()">محصولات</a>
-      <a href="#news" onclick="closeCartPage()">اخبار</a>
-      <a href="https://rubika.ir/joing/BBGECEHBI0ZUKUJGHRKAHZRVFTMYZLGG" target="_blank">پشتیبانی روبیکا</a>
+      <a href="#productsSection">محصولات</a>
+      <a href="#newsSection">اخبار</a>
+      <a href="#faqSection">سوالات متداول</a>
     </div>
     <div class="footer-col">
-      <h4>📩 تماس با ما</h4>
+      <h4>📩 تماس</h4>
       <a href="mailto:endshopiran@gmail.com">endshopiran@gmail.com</a>
-      <a href="https://www.rubika.ir/Taha_nistam_TU5" target="_blank">روبیکا: @Taha_nistam_TU5</a>
+      <a href="https://www.rubika.ir/Taha_nistam_TU5" target="_blank">@Taha_nistam_TU5</a>
     </div>
     <div class="footer-col">
       <h4>💫 پشتیبانی</h4>
       <a href="https://rubika.ir/joing/BBGECEHBI0ZUKUJGHRKAHZRVFTMYZLGG" target="_blank">گروه پشتیبانی</a>
-      <p>پاسخگویی ۲۴ ساعته</p>
+      <p>۲۴ ساعته</p>
     </div>
   </div>
   <div class="footer-bottom">© 2026 End Shop — تمامی حقوق محفوظ است.</div>
@@ -595,16 +731,11 @@
 <div class="modal" id="authModal">
   <div class="modal-box">
     <h2 id="authTitle">🔑 ورود</h2>
-    <label>نام کامل</label>
-    <input type="text" id="authName">
-    <label>نام کاربری (انگلیسی)</label>
-    <input type="text" id="authUsername">
-    <label>ایمیل</label>
-    <input type="email" id="authEmail">
-    <label>شماره تماس</label>
-    <input type="text" id="authPhone">
-    <label>رمز عبور</label>
-    <input type="password" id="authPassword">
+    <label>نام کامل</label><input type="text" id="authName">
+    <label>نام کاربری</label><input type="text" id="authUsername">
+    <label>ایمیل</label><input type="email" id="authEmail">
+    <label>شماره تماس</label><input type="text" id="authPhone">
+    <label>رمز عبور</label><input type="password" id="authPassword">
     <button onclick="handleAuth()" id="authBtn">ورود</button>
     <div class="switch" id="authSwitch">حساب نداری؟ <a onclick="switchAuth()">ثبت‌نام</a></div>
     <div class="status" id="authStatus"></div>
@@ -625,9 +756,7 @@
         <h3 id="profileName" style="color:var(--text);">-</h3>
       </div>
     </div>
-    <div class="profile-tab-content" id="tab-orders">
-      <div id="myOrders"></div>
-    </div>
+    <div class="profile-tab-content" id="tab-orders"><div id="myOrders"></div></div>
     <div class="profile-tab-content" id="tab-edit">
       <label>نام کامل</label><input type="text" id="editName">
       <label>ایمیل</label><input type="email" id="editEmail">
@@ -642,8 +771,8 @@
   <div class="modal-box" style="width:520px;">
     <h2>📋 خلاصه سفارش</h2>
     <div id="checkoutSummary" style="background:var(--card);padding:18px;border-radius:14px;margin-bottom:18px;font-size:0.9rem;line-height:1.9;white-space:pre-line;color:var(--text);border:1px solid var(--border);"></div>
-    <button onclick="copyOrder()" style="background:var(--secondary);">📋 کپی متن سفارش</button>
-    <button onclick="openRubika()" style="background:var(--accent);">💬 ارسال به پشتیبانی روبیکا</button>
+    <button onclick="copyOrder()" style="background:var(--secondary);">📋 کپی متن</button>
+    <button onclick="openRubika()" style="background:var(--accent);">💬 ارسال به روبیکا</button>
     <button onclick="closeModal('checkoutModal')" style="background:#4f545c;">بستن</button>
   </div>
 </div>
@@ -661,19 +790,19 @@
     <h2 id="pmName">محصول</h2>
     <div id="pmContent"></div>
     <div style="margin-top:15px;">
-      <h4 style="color:var(--text);margin-bottom:10px;font-size:0.95rem;">💬 نظرات کاربران</h4>
+      <h4 style="color:var(--text);margin-bottom:10px;font-size:0.95rem;">💬 نظرات</h4>
       <div id="pmReviews"></div>
       <label>نظر شما</label>
       <textarea id="pmReviewText" rows="2"></textarea>
       <label>امتیاز</label>
       <select id="pmReviewStars">
-        <option value="5">⭐⭐⭐⭐⭐ عالی</option>
-        <option value="4">⭐⭐⭐⭐ خوب</option>
-        <option value="3">⭐⭐⭐ متوسط</option>
-        <option value="2">⭐⭐ ضعیف</option>
-        <option value="1">⭐ بد</option>
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
       </select>
-      <button onclick="submitReview()">💬 ارسال نظر</button>
+      <button onclick="submitReview()">💬 ارسال</button>
     </div>
     <button onclick="closeModal('productModal')" style="background:#4f545c;">بستن</button>
   </div>
@@ -724,7 +853,7 @@ function goHome() {
   document.getElementById('mainPage').style.display = 'block';
   window.scrollTo(0, 0);
 }
-
+function closeCartPage() { goHome(); }
 function toggleFaq(el) { el.classList.toggle('open'); }
 
 function openCartPage() {
@@ -733,12 +862,11 @@ function openCartPage() {
   renderCartPage();
   window.scrollTo(0, 0);
 }
-function closeCartPage() { goHome(); }
 
 function renderCartPage() {
   const box = document.getElementById('cartPageItems');
   if (cart.length === 0) {
-    box.innerHTML = `<div class="empty-cart"><div class="icon">🛒</div><h3>سبد خرید خالیه</h3><p>هنوز محصولی به سبد اضافه نکردی</p></div>`;
+    box.innerHTML = `<div class="empty-cart"><div class="icon">🛒</div><h3>سبد خرید خالیه</h3></div>`;
   } else {
     box.innerHTML = cart.map((item, i) => `
       <div class="cart-item-new">
@@ -748,7 +876,7 @@ function renderCartPage() {
           <div class="item-tag">${item.tag || 'محصول'}</div>
           <div class="item-price">${item.price.toLocaleString('fa-IR')} تومان</div>
         </div>
-        <div class="item-actions"><button class="remove-item" onclick="removeFromCart(${i})">🗑️ حذف</button></div>
+        <div><button class="remove-item" onclick="removeFromCart(${i})">🗑️ حذف</button></div>
       </div>
     `).join('');
   }
@@ -790,35 +918,35 @@ function handleAuth() {
   const btn = document.getElementById('authBtn');
 
   if (currentAuthMode === 'register') {
-    if (!name || !username || !email || !phone || !password) return status.textContent = '⚠️ همه فیلدها رو پر کن!';
-    if (!/^[a-zA-Z0-9_.]{3,20}$/.test(username)) return status.textContent = '⚠️ نام کاربری فقط انگلیسی، ۳-۲۰ حرف!';
-    if (password.length < 6) return status.textContent = '⚠️ رمز باید حداقل ۶ حرف باشه!';
+    if (!name || !username || !email || !phone || !password) return status.textContent = '⚠️ همه فیلدها!';
+    if (!/^[a-zA-Z0-9_.]{3,20}$/.test(username)) return status.textContent = '⚠️ نام کاربری انگلیسی!';
+    if (password.length < 6) return status.textContent = '⚠️ رمز ۶ حرف!';
     btn.disabled = true;
     status.textContent = '⏳ در حال ثبت‌نام...';
     user.create(username, password, (ack) => {
       btn.disabled = false;
       if (ack.err) return status.textContent = '❌ ' + ack.err;
       gun.get('users').get(username).put({ name, username, email, phone, createdAt: Date.now() });
-      status.textContent = '✅ ثبت‌نام موفق!';
+      status.textContent = '✅ موفق!';
       setTimeout(() => {
         user.auth(username, password, () => {
           localStorage.setItem('currentUser', username);
           addNotification('🎉 خوش اومدی ' + name + '!');
           updateNav();
           closeModal('authModal');
-          showToast('🎉 خوش اومدی ' + name + '!');
+          showToast('🎉 خوش اومدی!');
         });
       }, 500);
     });
   } else {
     const loginUser = document.getElementById('authUsername').value.trim();
     const loginPass = document.getElementById('authPassword').value.trim();
-    if (!loginUser || !loginPass) return status.textContent = '⚠️ نام و رمز رو وارد کن!';
+    if (!loginUser || !loginPass) return status.textContent = '⚠️ نام و رمز!';
     btn.disabled = true;
     status.textContent = '⏳ در حال ورود...';
     user.auth(loginUser, loginPass, (ack) => {
       btn.disabled = false;
-      if (ack.err) return status.textContent = '❌ نام کاربری یا رمز اشتباهه!';
+      if (ack.err) return status.textContent = '❌ اشتباهه!';
       localStorage.setItem('currentUser', loginUser);
       updateNav();
       closeModal('authModal');
@@ -943,7 +1071,7 @@ function getProductRating(id) {
 
 function renderProducts(list = PRODUCTS) {
   const box = document.getElementById('productsGrid');
-  box.innerHTML = list.map((p, i) => {
+  box.innerHTML = list.map((p) => {
     const isFav = favorites.includes(p.id);
     const isNew = p.time && (Date.now() - p.time < 7 * 24 * 60 * 60 * 1000);
     const rating = getProductRating(p.id);
@@ -963,7 +1091,7 @@ function renderProducts(list = PRODUCTS) {
         <div class="content">
           <span class="tag">${p.tag}</span>
           <h3 onclick="openProductModal('${p.id}')" style="cursor:pointer;">${p.name}</h3>
-          ${rating.count > 0 ? `<div class="rating"><span class="stars">${stars}</span> ${rating.avg} (${rating.count} نظر)</div>` : ''}
+          ${rating.count > 0 ? `<div class="rating"><span class="stars">${stars}</span> ${rating.avg} (${rating.count})</div>` : ''}
           <span class="price"><small>تومان</small> ${p.price.toLocaleString('fa-IR')}</span>
           <button class="btn-buy" onclick="addToCart('${p.id}')">🛒 افزودن به سبد</button>
         </div>
@@ -988,7 +1116,7 @@ function renderReviews() {
   const box = document.getElementById('pmReviews');
   const revs = REVIEWS[currentProductForReview] || [];
   if (revs.length === 0) {
-    box.innerHTML = '<p style="color:var(--text-2);font-size:0.85rem;">هنوز نظری ثبت نشده</p>';
+    box.innerHTML = '<p style="color:var(--text-2);font-size:0.85rem;">هنوز نظری نیست</p>';
   } else {
     box.innerHTML = revs.map(r => `
       <div class="order-item" style="border-right:3px solid #fbbf24;">
@@ -1029,7 +1157,7 @@ function toggleFav(id) {
 function openFavs() {
   const box = document.getElementById('favItems');
   if (favorites.length === 0) {
-    box.innerHTML = '<p style="color:var(--text-2);text-align:center;padding:20px;">هنوز چیزی اضافه نکردی</p>';
+    box.innerHTML = '<p style="color:var(--text-2);text-align:center;padding:20px;">خالیه</p>';
   } else {
     box.innerHTML = favorites.map(id => {
       const p = PRODUCTS.find(x => x.id === id);
@@ -1058,7 +1186,7 @@ function addToCart(id) {
   cart.push({ id: p.id, name: p.name, price: p.price, emoji: p.emoji, tag: p.tag });
   localStorage.setItem('end_shop_cart', JSON.stringify(cart));
   updateNav();
-  showToast('✅ به سبد اضافه شد!');
+  showToast('✅ اضافه شد!');
 }
 
 function removeFromCart(i) {
@@ -1075,21 +1203,21 @@ function applyDiscount() {
   
   if (!found) {
     currentDiscount = 0;
-    result.textContent = '❌ کد تخفیف نامعتبر!';
+    result.textContent = '❌ نامعتبر!';
     result.style.color = 'var(--danger)';
     renderCartPage();
     return;
   }
   if (found.expiresAt && Date.now() > found.expiresAt) {
     currentDiscount = 0;
-    result.textContent = '⏰ این کد منقضی شده!';
+    result.textContent = '⏰ منقضی شده!';
     result.style.color = 'var(--danger)';
     renderCartPage();
     return;
   }
   currentDiscount = found.percent;
   const timeLeft = found.expiresAt ? formatTimeLeft(found.expiresAt - Date.now()) : 'همیشه';
-  result.textContent = `✅ تخفیف ${found.percent}% اعمال شد! (${timeLeft})`;
+  result.textContent = `✅ ${found.percent}% (${timeLeft})`;
   result.style.color = 'var(--success)';
   renderCartPage();
 }
@@ -1099,8 +1227,8 @@ function formatTimeLeft(ms) {
   const h = Math.floor(ms / 3600000);
   const d = Math.floor(h / 24);
   const m = Math.floor((ms % 3600000) / 60000);
-  if (d > 0) return `${d} روز و ${h % 24} ساعت`;
-  if (h > 0) return `${h} ساعت و ${m} دقیقه`;
+  if (d > 0) return `${d} روز`;
+  if (h > 0) return `${h} ساعت`;
   return `${m} دقیقه`;
 }
 
@@ -1131,7 +1259,7 @@ function checkout() {
     });
     localStorage.setItem('end_shop_products', JSON.stringify(PRODUCTS));
     
-    addNotification('✅ سفارش شما ثبت شد!');
+    addNotification('✅ سفارش ثبت شد!');
     document.getElementById('checkoutModal').classList.add('open');
   });
 }
@@ -1149,7 +1277,7 @@ function openRubika() {
   updateNav();
   closeModal('checkoutModal');
   closeCartPage();
-  showToast('✅ سفارش ثبت شد!');
+  showToast('✅ ثبت شد!');
 }
 
 function openProfile() {
@@ -1181,7 +1309,7 @@ function renderMyOrders() {
   gun.get('orders').map().once((o) => { if (o && o.user === me) orders.push(o); });
   setTimeout(() => {
     if (orders.length === 0) {
-      box.innerHTML = '<p style="color:var(--text-2);text-align:center;padding:20px;">هنوز سفارشی نداری</p>';
+      box.innerHTML = '<p style="color:var(--text-2);text-align:center;padding:20px;">سفارشی نداری</p>';
       return;
     }
     box.innerHTML = orders.map(o => `
@@ -1192,7 +1320,6 @@ function renderMyOrders() {
         </div>
         <div>${o.products.map(p => p.emoji + ' ' + p.name).join(' • ')}</div>
         <div style="color:var(--accent);font-weight:700;margin-top:8px;">${o.total.toLocaleString('fa-IR')} تومان</div>
-        <div style="color:var(--text-2);font-size:0.75rem;margin-top:5px;">${new Date(o.time).toLocaleString('fa-IR')}</div>
       </div>
     `).join('');
   }, 800);
@@ -1213,7 +1340,7 @@ function renderNews() {
   gun.get('news').map().once((n) => { if (n && n.title) news.push(n); });
   setTimeout(() => {
     if (news.length === 0) {
-      box.innerHTML = `<div class="news-card"><span class="news-date">امروز</span><h3>افتتاح فروشگاه End Shop!</h3><p>فروشگاه ما رسماً شروع به کار کرد!</p></div>`;
+      box.innerHTML = `<div class="news-card"><span class="news-date">امروز</span><h3>افتتاح فروشگاه End Shop!</h3><p>فروشگاه ما شروع به کار کرد!</p></div>`;
       return;
     }
     box.innerHTML = news.map(n => `
@@ -1298,23 +1425,23 @@ function addProduct() {
 
 function addCategory() {
   const name = document.getElementById('newCategoryName').value.trim();
-  if (!name) return showToast('⚠️ اسم دسته‌بندی رو بنویس!', true);
-  if (CATEGORIES.includes(name)) return showToast('⚠️ این دسته قبلاً وجود داره!', true);
+  if (!name) return showToast('⚠️ اسم دسته!', true);
+  if (CATEGORIES.includes(name)) return showToast('⚠️ تکراری!', true);
   CATEGORIES.push(name);
   localStorage.setItem('end_shop_categories', JSON.stringify(CATEGORIES));
   document.getElementById('newCategoryName').value = '';
   renderCategories();
   renderAdminLists();
-  showToast('✅ دسته‌بندی اضافه شد!');
+  showToast('✅ اضافه شد!');
 }
 
 function deleteCategory(name) {
-  if (!confirm('حذف دسته‌بندی «' + name + '»؟')) return;
+  if (!confirm('حذف «' + name + '»؟')) return;
   CATEGORIES = CATEGORIES.filter(c => c !== name);
   localStorage.setItem('end_shop_categories', JSON.stringify(CATEGORIES));
   renderCategories();
   renderAdminLists();
-  showToast('🗑️ دسته‌بندی حذف شد!');
+  showToast('🗑️ حذف شد!');
 }
 
 function addDiscount() {
@@ -1322,7 +1449,7 @@ function addDiscount() {
   const percent = parseInt(document.getElementById('discountPercent').value);
   const duration = document.getElementById('discountDuration').value;
   if (!code || !percent || percent < 1 || percent > 100) return showToast('⚠️ کد و درصد!', true);
-  if (DISCOUNTS.find(d => d.code === code)) return showToast('⚠️ کد تکراری!', true);
+  if (DISCOUNTS.find(d => d.code === code)) return showToast('⚠️ تکراری!', true);
   
   const now = Date.now();
   let expiresAt = null;
@@ -1340,7 +1467,7 @@ function addDiscount() {
   document.getElementById('discountCode').value = '';
   document.getElementById('discountPercent').value = '';
   renderAdminLists();
-  showToast('✅ کد تخفیف اضافه شد!');
+  showToast('✅ کد اضافه شد!');
 }
 
 function deleteProduct(id) {
@@ -1373,7 +1500,7 @@ function renderAdminLists() {
     const status = expired ? '❌ منقضی' : `⏰ ${timeLeft}`;
     return `
       <div class="admin-item" style="${expired ? 'opacity:0.5;' : ''}">
-        <span>${d.code} — ${d.percent}% <span style="color:${expired ? 'var(--danger)' : 'var(--success)'};font-size:11px;font-weight:700;">${status}</span></span>
+        <span>${d.code} — ${d.percent}% <span style="color:${expired ? 'var(--danger)' : 'var(--success)'};font-size:11px;">${status}</span></span>
         <button class="del-btn" onclick="deleteDiscount('${d.code}')">حذف</button>
       </div>
     `;
@@ -1412,6 +1539,7 @@ user.recall({ sessionStorage: true }, () => {
 });
 updateNav();
 renderCategories();
+renderProducts();  // ← این خط مشکل نمایش محصولات رو حل می‌کنه
 </script>
 </body>
 </html>
